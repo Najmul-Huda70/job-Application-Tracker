@@ -10,15 +10,20 @@ function showOnly(id) {
   document.getElementById(id).classList.remove("hidden");
   console.log("showonly");
 
-  const ir = document.getElementById("IR");
+  const totalCount = document.getElementById("Total-count");
+  const interviewCount = document.getElementById("Interview-count");
+  const rejectedCount = document.getElementById("Rejected-count");
+
+  let total_count = Number(totalCount.innerText);
+  let interview_count = Number(interviewCount.innerText);
+  let rejected_count = Number(rejectedCount.innerText);
+  const job = document.getElementById("jobs");
   if (id === "Interview") {
-    const interviewCount = document.getElementById("Interview-count").innerText;
-    ir.innerText = Number(interviewCount) + " of ";
+    job.innerText = interview_count + " of " + total_count;
   } else if (id === "Rejected") {
-    const rejectedCount = document.getElementById("Rejected-count").innerText;
-    ir.innerText = Number(rejectedCount) + " of ";
+    job.innerText = rejected_count + " of " + total_count;
   } else {
-    ir.innerText = "";
+    job.innerText = total_count;
   }
 }
 
@@ -44,10 +49,9 @@ function job(parentID, childID) {
   let interview_count = Number(interviewCount.innerText);
   let rejected_count = Number(rejectedCount.innerText);
   if (bossID == "All" && parentID === "Interview") {
-    interviewCount.innerText = interview_count + 1;
-    totalCount.innerText = total_count - 1;
-    if (total_count - 1 <= 0) {
-      totalCount.innerText = 0;
+    interview_count += 1;
+    interviewCount.innerText = interview_count;
+    if (total_count <= interview_count + rejected_count) {
       const newCard = document.createElement("div");
       newCard.innerHTML = `<div
           class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
@@ -84,10 +88,9 @@ function job(parentID, childID) {
     }
   }
   if (bossID == "All" && parentID === "Rejected") {
-    rejectedCount.innerText = rejected_count + 1;
-    totalCount.innerText = total_count - 1;
-    if (total_count - 1 <= 0) {
-      totalCount.innerText = 0;
+    rejected_count += 1;
+    rejectedCount.innerText = rejected_count;
+    if (total_count <= interview_count + rejected_count) {
       const newCard = document.createElement("div");
       newCard.innerHTML = `<div
           class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
@@ -145,8 +148,9 @@ function jobRemove(id) {
   let rejected_count = Number(rejectedCount.innerText);
 
   if (bossID == "All") {
-    totalCount.innerText = total_count - 1;
-    if (total_count - 1 <= 0) {
+    total_count -= 1;
+    totalCount.innerText = total_count;
+    if (total_count <= 0) {
       totalCount.innerText = 0;
       const newCard = document.createElement("div");
       newCard.innerHTML = `<div
@@ -162,11 +166,18 @@ function jobRemove(id) {
         </div>`;
       boss.append(newCard);
     }
+    const job = document.getElementById("jobs");
+    job.innerText = total_count;
+    console.log(job, tot);
   }
   if (bossID == "Rejected") {
-    rejectedCount.innerText = rejected_count - 1;
-    if (rejected_count - 1 <= 0) {
+    rejected_count -= 1;
+    total_count -= 1;
+    rejectedCount.innerText = rejected_count;
+    totalCount.innerText = total_count;
+    if (rejected_count <= 0) {
       rejectedCount.innerText = 0;
+      rejected_count = 0;
       const newCard = document.createElement("div");
       newCard.innerHTML = `<div
           class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
@@ -181,13 +192,33 @@ function jobRemove(id) {
         </div>`;
       boss.append(newCard);
     }
-    const ir = document.getElementById("IR");
-    ir.innerText = rejectedCount.innerText + " of ";
+    if (total_count <= 0) {
+      totalCount.innerText = 0;
+      const newCard = document.createElement("div");
+      newCard.innerHTML = `<div
+          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
+        >
+          <div><img src="./jobs.png" alt="" /></div>
+          <h2 class="text-[#002C5C] text-2xl font-semibold">
+            No jobs available
+          </h2>
+          <p class="text-[#64748B]">
+            Check back soon for new job opportunities
+          </p>
+        </div>`;
+      const app = document.getElementById("All");
+      app.append(newCard);
+    }
+    const job = document.getElementById("jobs");
+    job.innerText = rejected_count + " of " + total_count;
   }
 
   if (bossID == "Interview") {
-    interviewCount.innerText = interview_count - 1;
-    if (interview_count - 1 <= 0) {
+    interview_count -= 1;
+    total_count -= 1;
+    interviewCount.innerText = interview_count;
+    totalCount.innerText = total_count;
+    if (interview_count <= 0) {
       interviewCount.innerText = 0;
       const newCard = document.createElement("div");
       newCard.innerHTML = `<div
@@ -203,7 +234,24 @@ function jobRemove(id) {
         </div>`;
       boss.append(newCard);
     }
+    if (total_count <= 0) {
+      totalCount.innerText = 0;
+      const newCard = document.createElement("div");
+      newCard.innerHTML = `<div
+          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
+        >
+          <div><img src="./jobs.png" alt="" /></div>
+          <h2 class="text-[#002C5C] text-2xl font-semibold">
+            No jobs available
+          </h2>
+          <p class="text-[#64748B]">
+            Check back soon for new job opportunities
+          </p>
+        </div>`;
+      const app = document.getElementById("All");
+      app.append(newCard);
+    }
   }
-  const ir = document.getElementById("IR");
-  ir.innerText = interviewCount.innerText + " of ";
+  const job = document.getElementById("jobs");
+  job.innerText = interview_count + " of " + total_count;
 }
