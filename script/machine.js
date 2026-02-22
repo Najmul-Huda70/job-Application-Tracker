@@ -147,6 +147,8 @@ function jobRemove(id) {
   let interview_count = Number(interviewCount.innerText);
   let rejected_count = Number(rejectedCount.innerText);
 
+  const job = document.getElementById("jobs");
+
   if (bossID == "All") {
     total_count -= 1;
     totalCount.innerText = total_count;
@@ -166,7 +168,6 @@ function jobRemove(id) {
         </div>`;
       boss.append(newCard);
     }
-    const job = document.getElementById("jobs");
     job.innerText = total_count;
     console.log(job, tot);
   }
@@ -209,7 +210,6 @@ function jobRemove(id) {
       const app = document.getElementById("All");
       app.append(newCard);
     }
-    const job = document.getElementById("jobs");
     job.innerText = rejected_count + " of " + total_count;
   }
 
@@ -251,7 +251,6 @@ function jobRemove(id) {
       const app = document.getElementById("All");
       app.append(newCard);
     }
+    job.innerText = interview_count + " of " + total_count;
   }
-  const job = document.getElementById("jobs");
-  job.innerText = interview_count + " of " + total_count;
 }
