@@ -1,3 +1,5 @@
+console.log("machine.js connected!");
+
 function showOnly(id) {
   const all = document.getElementById("All");
   const interview = document.getElementById("Interview");
@@ -8,249 +10,132 @@ function showOnly(id) {
   rejected.classList.add("hidden");
   // remove hidden id
   document.getElementById(id).classList.remove("hidden");
-  console.log("showonly");
 
-  const totalCount = document.getElementById("Total-count");
-  const interviewCount = document.getElementById("Interview-count");
-  const rejectedCount = document.getElementById("Rejected-count");
-
-  let total_count = Number(totalCount.innerText);
-  let interview_count = Number(interviewCount.innerText);
-  let rejected_count = Number(rejectedCount.innerText);
-  const job = document.getElementById("jobs");
-  if (id === "Interview") {
-    job.innerText = interview_count + " of " + total_count;
-  } else if (id === "Rejected") {
-    job.innerText = rejected_count + " of " + total_count;
-  } else {
-    job.innerText = total_count;
-  }
+  updateCalculation(id, "invalidID", "invalidID");
 }
 
-function job(parentID, childID) {
-  const parent = document.getElementById(parentID);
-  // console.log(parent);
-  const image = parent.querySelector("img");
-  if (image) {
-    parent.innerHTML = "";
-  }
-  const child = document.getElementById(childID);
-  const boss = child.parentElement;
-  const bossID = boss.id;
-  console.log("bossID: ", bossID);
-  parent.appendChild(child);
-  console.log(parent);
+//TODO Append when job section is  empty
+function appendEmpty(id) {
+  const parentId = document.getElementById(id);
+  const newCard = document.createElement("div");
+  newCard.innerHTML = `<div
+          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
+        >
+          <div><img src="./jobs.png" alt="" /></div>
+          <h2 class="text-[#002C5C] text-2xl font-semibold">
+            No jobs available
+          </h2>
+          <p class="text-[#64748B]">
+            Check back soon for new job opportunities
+          </p>
+        </div>`;
+  parentId.appendChild(newCard);
+  console.log(`Append successful in ${parentId}.`);
+}
 
+function updateCalculation(updateID, id_1, id_2) {
+  console.log("function has 3 id is ", updateID, id_1, id_2);
+
+  //! get element by id -> object
   const totalCount = document.getElementById("Total-count");
   const interviewCount = document.getElementById("Interview-count");
   const rejectedCount = document.getElementById("Rejected-count");
+  const job = document.getElementById("jobs");
 
+  //! object innerText -> convert to Number
   let total_count = Number(totalCount.innerText);
   let interview_count = Number(interviewCount.innerText);
   let rejected_count = Number(rejectedCount.innerText);
-  if (bossID == "All" && parentID === "Interview") {
-    interview_count += 1;
+
+  //TODO transfer id_1 to id_2
+  if (id_1 == "All" && id_2 === "Interview") {
+    interview_count++;
     interviewCount.innerText = interview_count;
     if (total_count <= interview_count + rejected_count) {
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+      appendEmpty(id_1);
     }
   }
-  if (bossID == "Rejected" && parentID === "Interview") {
-    interviewCount.innerText = interview_count + 1;
-    rejectedCount.innerText = rejected_count - 1;
-    if (rejected_count - 1 <= 0) {
-      rejectedCount.innerText = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+  if (id_1 == "Rejected" && id_2 === "Interview") {
+    interview_count++;
+    rejected_count--;
+
+    if (rejected_count <= 0) {
+      rejected_count = 0;
+      appendEmpty(id_1);
     }
+
+    interviewCount.innerText = interview_count;
+    rejectedCount.innerText = rejected_count;
   }
-  if (bossID == "All" && parentID === "Rejected") {
+
+  if (id_1 == "All" && id_2 === "Rejected") {
     rejected_count += 1;
     rejectedCount.innerText = rejected_count;
     if (total_count <= interview_count + rejected_count) {
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+      appendEmpty(id_1);
     }
   }
-  if (bossID == "Interview" && parentID === "Rejected") {
-    rejectedCount.innerText = rejected_count + 1;
-    interviewCount.innerText = interview_count - 1;
-    if (interview_count - 1 <= 0) {
-      interviewCount.innerText = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+  if (id_1 == "Interview" && id_2 === "Rejected") {
+    rejected_count++;
+    interview_count--;
+
+    if (interview_count <= 0) {
+      interview_count = 0;
+      appendEmpty(id_1);
     }
-  }
-}
-function jobRemove(id) {
-  const child = document.getElementById(id);
-  const boss = child.parentElement;
-  const bossID = boss.id;
-  child.remove();
-  console.log("remove successfully!");
-  // console.log("bossID: ", bossID);
-  const image = document.getElementById(bossID).querySelector("img");
-  if (image) {
-    boss.innerHTML = "";
+
+    rejectedCount.innerText = rejected_count;
+    interviewCount.innerText = interview_count;
   }
 
-  const totalCount = document.getElementById("Total-count");
-  const interviewCount = document.getElementById("Interview-count");
-  const rejectedCount = document.getElementById("Rejected-count");
-
-  let total_count = Number(totalCount.innerText);
-  let interview_count = Number(interviewCount.innerText);
-  let rejected_count = Number(rejectedCount.innerText);
-
-  const job = document.getElementById("jobs");
-
-  if (bossID == "All") {
-    total_count -= 1;
+  // TODO Job remove function
+  if (updateID == "All" && id_1 === "removeJobs") {
+    total_count--;
     totalCount.innerText = total_count;
     if (total_count <= 0) {
       totalCount.innerText = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+      appendEmpty(updateID);
     }
     job.innerText = total_count;
-    console.log(job, tot);
   }
-  if (bossID == "Rejected") {
-    rejected_count -= 1;
-    total_count -= 1;
+
+  if (updateID == "Rejected" && id_1 === "removeJobs") {
+    rejected_count--;
+    total_count--;
     rejectedCount.innerText = rejected_count;
     totalCount.innerText = total_count;
     if (rejected_count <= 0) {
       rejectedCount.innerText = 0;
       rejected_count = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+      appendEmpty(updateID);
     }
     if (total_count <= 0) {
       totalCount.innerText = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      const app = document.getElementById("All");
-      app.append(newCard);
+      appendEmpty("All");
     }
-    job.innerText = rejected_count + " of " + total_count;
   }
 
-  if (bossID == "Interview") {
-    interview_count -= 1;
-    total_count -= 1;
+  if (updateID == "Interview" && id_1 === "removeJobs") {
+    interview_count--;
+    total_count--;
     interviewCount.innerText = interview_count;
     totalCount.innerText = total_count;
     if (interview_count <= 0) {
       interviewCount.innerText = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      boss.append(newCard);
+      appendEmpty(updateID);
     }
     if (total_count <= 0) {
       totalCount.innerText = 0;
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `<div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>`;
-      const app = document.getElementById("All");
-      app.append(newCard);
+      appendEmpty("All");
     }
+  }
+
+  //TODO finall update
+  if (updateID === "Interview") {
     job.innerText = interview_count + " of " + total_count;
+  } else if (updateID === "Rejected") {
+    job.innerText = rejected_count + " of " + total_count;
+  } else {
+    job.innerText = total_count;
   }
 }
