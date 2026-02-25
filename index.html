@@ -51,25 +51,25 @@
           <div class="card bg-base-100 mx-auto w-70 md:w-full shadow-sm">
             <div class="card-body">
               <h2 class="card-title text-[#323B49]">Total</h2>
-              <p id="Total-count" class="text-2xl font-bold text-[#002C5C]">
-                8
-              </p>
+              <p id="totalCount" class="text-2xl font-bold text-[#002C5C]"></p>
             </div>
           </div>
           <div class="card bg-base-100 mx-auto w-70 md:w-full shadow-sm">
             <div class="card-body">
               <h2 class="card-title text-[#323B49]">Interview</h2>
-              <p id="Interview-count" class="text-2xl font-bold text-[#10B981]">
-                0
-              </p>
+              <p
+                id="interviewCount"
+                class="text-2xl font-bold text-[#10B981]"
+              ></p>
             </div>
           </div>
           <div class="card bg-base-100 mx-auto w-70 md:w-full shadow-sm">
             <div class="card-body">
               <h2 class="card-title text-[#323B49]">Rejected</h2>
-              <p id="Rejected-count" class="text-2xl font-bold text-[#EF4444]">
-                0
-              </p>
+              <p
+                id="rejectedCount"
+                class="text-2xl font-bold text-[#EF4444]"
+              ></p>
             </div>
           </div>
         </div>
@@ -83,42 +83,46 @@
         <h2 class="text-[#002C5C] text-2xl font-semibold">Available Jobs</h2>
         <p class="text-[#64748B]"><span id="jobs">8</span> jobs</p>
       </div>
-      <!-- all, interview, rejected -->
+      <!--button: all, interview, rejected -->
       <div class="flex gap-5 text-xl mt-6">
         <button
-          onclick="showOnly('All')"
-          class="btn btn-soft btn-primary w-28 text-xl"
+          onclick="toggleStyle('all-filter-btn')"
+          id="all-filter-btn"
+          class="btn btn-soft btn-primary w-28 text-xl bg-blue-600 text-white"
         >
           All
         </button>
         <button
-          onclick="showOnly('Interview')"
+          onclick="toggleStyle('interview-filter-btn')"
+          id="interview-filter-btn"
           class="btn btn-soft btn-primary w-28 text-xl"
         >
           Interview
         </button>
         <button
-          onclick="showOnly('Rejected')"
+          onclick="toggleStyle('rejected-filter-btn')"
+          id="rejected-filter-btn"
           class="btn btn-soft btn-primary w-28 text-xl"
         >
           Rejected
         </button>
       </div>
-      <!-- All -->
-      <section class="space-y-8 my-8" id="All">
+      <!-- All section -->
+      <section class="space-y-8 my-8" id="allSection">
         <!-- jobs-1 -->
-        <div id="job-1" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
             <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   Mobile First Corp
                 </h2>
-                <p class="text-[#64748B] text-xl">React Native Developer</p>
+                <p class="position text-[#64748B] text-xl">
+                  React Native Developer
+                </p>
               </div>
               <div
-                onclick="jobRemove('job-1')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
@@ -128,33 +132,24 @@
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>Remote</li>
-              <li>Full-time</li>
-              <li>$130,000 - $175,000</li>
+              <li class="location">Remote</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$130,000 - $175,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-1')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Build cross-platform mobile applications using React Native.
-                Work on products used by millions of users worldwide.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Build cross-platform mobile applications using React Native. Work
+              on products used by millions of users worldwide.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-1')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-1')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -162,54 +157,45 @@
           </div>
         </div>
         <!-- jobs-2 -->
-        <div id="job-2" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   WebFlow Agency
                 </h2>
-                <p class="text-[#64748B] text-xl">Web Designer & Developer</p>
+                <p class="position text-[#64748B] text-xl">
+                  Web Designer & Developer
+                </p>
               </div>
               <div
-                onclick="jobRemove('job-2')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>Los Angeles, CA</li>
-              <li>Part-time</li>
-              <li>$80,000 - $120,000</li>
+              <li class="location">Los Angeles, CA</li>
+              <li class="type">Part-time</li>
+              <li class="salary">$80,000 - $120,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-2')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Create stunning web experiences for high-profile clients. Must
-                have portfolio and experience with modern web design trends.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Create stunning web experiences for high-profile clients. Must
+              have portfolio and experience with modern web design trends.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-2')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-2')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -217,56 +203,45 @@
           </div>
         </div>
         <!-- jobs-3 -->
-        <div id="job-3" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   DataViz Solutions
                 </h2>
-                <p class="text-[#64748B] text-xl">
+                <p class="position text-[#64748B] text-xl">
                   Data Visualization Specialist
                 </p>
               </div>
               <div
-                onclick="jobRemove('job-3')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>Boston, MA</li>
-              <li>Full-time</li>
-              <li>$125,000 - $165,000</li>
+              <li class="location">Boston, MA</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$125,000 - $165,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-3')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Transform complex data into compelling visualizations. Required
-                skills: D3.js, React, and strong analytical thinking.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Transform complex data into compelling visualizations. Required
+              skills: D3.js, React, and strong analytical thinking.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-3')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-3')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -274,54 +249,43 @@
           </div>
         </div>
         <!-- jobs-4 -->
-        <div id="job-4" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   CloudFirst Inc
                 </h2>
-                <p class="text-[#64748B] text-xl">Backend Developer</p>
+                <p class="position text-[#64748B] text-xl">Backend Developer</p>
               </div>
               <div
-                onclick="jobRemove('job-4')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>Seattle, WA</li>
-              <li>Full-time</li>
-              <li>$140,000 - $190,000</li>
+              <li class="location">Seattle, WA</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$140,000 - $190,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-4')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Design and maintain scalable backend systems using Python and
-                AWS. Work with modern DevOps practices and cloud infrastructure.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Design and maintain scalable backend systems using Python and AWS.
+              Work with modern DevOps practices and cloud infrastructure.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-4')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-4')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -329,55 +293,43 @@
           </div>
         </div>
         <!-- jobs-5 -->
-        <div id="job-5" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   Innovation Labs
                 </h2>
-                <p class="text-[#64748B] text-xl">UI/UX Engineer</p>
+                <p class="position text-[#64748B] text-xl">UI/UX Engineer</p>
               </div>
               <div
-                onclick="jobRemove('job-5')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>Remote</li>
-              <li>Full-time</li>
-              <li>$110,000 - $150,000</li>
+              <li class="location">Remote</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$110,000 - $150,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-5')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Create beautiful and functional user interfaces for our suite of
-                products. Strong design skills and frontend development
-                expertise required.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Create beautiful and functional user interfaces for our product
+              suite. Strong design and frontend development skills required.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-5')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-5')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -385,55 +337,45 @@
           </div>
         </div>
         <!-- jobs-6 -->
-        <div id="job-6" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   MegaCorp Solutions
                 </h2>
-                <p class="text-[#64748B] text-xl">JavaScript Developer</p>
+                <p class="position text-[#64748B] text-xl">
+                  JavaScript Developer
+                </p>
               </div>
               <div
-                onclick="jobRemove('job-6')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>New York, NY</li>
-              <li>Full-time</li>
-              <li>$130,000 - $170,00</li>
+              <li class="location">New York, NY</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$130,000 - $170,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-6')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Build enterprise applications with JavaScript and modern
-                frameworks. We offer competitive compensation, health insurance,
-                and professional development opportunities.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Build enterprise applications with modern JavaScript frameworks.
+              Competitive compensation and growth opportunities included.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-6')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-6')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -441,55 +383,45 @@
           </div>
         </div>
         <!-- jobs-7 -->
-        <div id="job-7" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   StartupXYZ
                 </h2>
-                <p class="text-[#64748B] text-xl">Full Stack Engineer</p>
+                <p class="position text-[#64748B] text-xl">
+                  Full Stack Engineer
+                </p>
               </div>
               <div
-                onclick="jobRemove('job-7')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>Remote</li>
-              <li>Full-time</li>
-              <li>$120,000 - $160,000</li>
+              <li class="location">Remote</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$120,000 - $160,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-7')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                Join our fast-growing startup and work on our core platform.
-                Experience with Node.js and React required. Great benefits and
-                equity package included.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Join our fast-growing startup and build scalable full stack
+              applications. Experience with Node.js and React required.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-7')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-7')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -497,55 +429,45 @@
           </div>
         </div>
         <!-- jobs-8 -->
-        <div id="job-8" class="card card-dash bg-base-100 w-full">
+        <div class="card card-dash bg-base-100 w-full">
           <div class="card-body space-y-5">
-            <!-- title and position -->
             <div class="space-y-2 flex justify-between items-center">
               <div>
-                <h2 class="text-[#002C5C] text-2xl font-semibold">
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
                   TechCorp Industries
                 </h2>
-                <p class="text-[#64748B] text-xl">Senior Frontend Developer</p>
+                <p class="position text-[#64748B] text-xl">
+                  Senior Frontend Developer
+                </p>
               </div>
               <div
-                onclick="jobRemove('job-8')"
                 class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
               >
                 <i class="text-[#64748B] fa-regular fa-trash-can"></i>
               </div>
             </div>
-            <!-- details -->
+
             <ul
               class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
             >
-              <li>San Francisco, CA</li>
-              <li>Full-time</li>
-              <li>$130,000 - $175,000</li>
+              <li class="location">San Francisco, CA</li>
+              <li class="type">Full-time</li>
+              <li class="salary">$130,000 - $175,000</li>
             </ul>
-            <!-- Not Applied -->
-            <div class="space-y-2">
-              <button
-                onclick="jobRemove('job-8')"
-                class="btn btn-soft btn-primary text-2xl uppercase"
-              >
-                NOT APPLIED
-              </button>
-              <p class="text-xl text-[#323B49]">
-                We are looking for an experienced Frontend Developer to build
-                scalable web applications using React and TypeScript. You will
-                work with a talented team on cutting-edge projects.
-              </p>
-            </div>
+
+            <p class="description text-xl text-[#323B49]">
+              Build scalable web applications using React and TypeScript.
+              Collaborate with a talented team on cutting-edge products.
+            </p>
+
             <div class="flex gap-3">
               <button
-                onclick="job('Interview', 'job-8')"
-                class="btn btn-outline btn-success text-2xl uppercase"
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
               >
                 interview
               </button>
               <button
-                onclick="job('Rejected', 'job-8')"
-                class="btn btn-outline btn-error text-2xl uppercase"
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
               </button>
@@ -553,22 +475,9 @@
           </div>
         </div>
       </section>
-      <!-- Interview -->
-      <section class="space-y-8 my-8 hidden" id="Interview">
-        <div
-          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
-        >
-          <div><img src="./jobs.png" alt="" /></div>
-          <h2 class="text-[#002C5C] text-2xl font-semibold">
-            No jobs available
-          </h2>
-          <p class="text-[#64748B]">
-            Check back soon for new job opportunities
-          </p>
-        </div>
-      </section>
-      <!-- Rejected -->
-      <section class="space-y-8 my-8 hidden" id="Rejected">
+
+      <!-- filter section -->
+      <section class="space-y-8 my-8 hidden" id="filterSection">
         <div
           id="empty-card"
           class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
