@@ -3,7 +3,7 @@ console.log("jobTracker.js is connected.");
 //todo list create
 let interviewList = [];
 let rejectedList = [];
-
+let currentStatus = "all-filter-btn";
 //todo getElementById()
 //* 1. heder section card
 const totalCount = document.getElementById("totalCount");
@@ -16,6 +16,8 @@ const filterSection = document.getElementById("filterSection");
 const allFilterBtn = document.getElementById("all-filter-btn");
 const interviewFilterBtn = document.getElementById("interview-filter-btn");
 const rejectedFilterBtn = document.getElementById("rejected-filter-btn");
+//*4.jobs interview or rejected calculate count
+const jobs = document.getElementById("jobs");
 
 //todo querySelector()
 const mainContainer = document.querySelector("main");
@@ -39,18 +41,24 @@ function toggleStyle(id) {
   const selectBtn = document.getElementById(id);
   selectBtn.classList.add("bg-blue-600", "text-white");
 
-  console.log(`${id} toggleStyle set Successfully.`);
+  currentStatus = id;
+  console.log("currentStatus:", currentStatus);
 
+  console.log(`${id} toggleStyle set Successfully.`);
+  console.log("list size:", interviewList.length, rejectedList.length);
   if (id === "all-filter-btn") {
     allSection.classList.remove("hidden");
     filterSection.classList.add("hidden");
+    jobs.innerText = "";
   } else if (id === "interview-filter-btn") {
     filterSection.classList.remove("hidden");
     allSection.classList.add("hidden");
+    jobs.innerText = interviewList.length + " of ";
     renderInterview();
   } else if (id === "rejected-filter-btn") {
     filterSection.classList.remove("hidden");
     allSection.classList.add("hidden");
+    jobs.innerText = rejectedList.length + " of ";
     renderRejected();
   }
 }
@@ -58,6 +66,7 @@ function toggleStyle(id) {
 //todo step-02: delegation
 mainContainer.addEventListener("click", function (event) {
   if (event.target.classList.contains("Interview")) {
+    console.log("Interview button clicked!");
     const parentNode = event.target.parentNode.parentNode;
     console.log("parentNode:", parentNode);
     //* querySelector()
@@ -88,9 +97,13 @@ mainContainer.addEventListener("click", function (event) {
     rejectedList = rejectedList.filter(
       (item) => item.companyName !== jobObject.companyName,
     );
+    console.log("currentStatus in interview btn:", currentStatus);
+    if (currentStatus === "rejected-filter-btn") {
+      renderRejected();
+    }
     calculateCount();
-    console.log("Interview button clicked!");
   } else if (event.target.classList.contains("Rejected")) {
+    console.log("Rejected button clicked!");
     const parentNode = event.target.parentNode.parentNode;
     console.log("parentNode:", parentNode);
     //* querySelector()
@@ -121,16 +134,34 @@ mainContainer.addEventListener("click", function (event) {
     interviewList = interviewList.filter(
       (item) => item.companyName !== jobObject.companyName,
     );
+    console.log("currentStatus in rejected btn:", currentStatus);
+    if (currentStatus === "interview-filter-btn") {
+      renderInterview();
+    }
     calculateCount();
-    console.log("Rejected button clicked!");
   }
 });
 
 //todo step-03
 function renderInterview() {
+  console.log("renderInterview() called successfully.");
   //? each intreviewList object to create a div card and then append this card filterSection
-  if (interviewList.length !== 0) {
-    filterSection.innerHTML = "";
+  filterSection.innerHTML = "";
+  if (interviewList.length === 0) {
+    const div = document.createElement("div");
+    div.innerHTML = `<div
+          id="empty-card"
+          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
+        >
+          <div><img src="./jobs.png" alt="" /></div>
+          <h2 class="text-[#002C5C] text-2xl font-semibold">
+            No jobs available
+          </h2>
+          <p class="text-[#64748B]">
+            Check back soon for new job opportunities
+          </p>
+        </div>`;
+    filterSection.appendChild(div);
   }
   for (let job of interviewList) {
     const div = document.createElement("div");
@@ -160,10 +191,13 @@ function renderInterview() {
               <li class="type">${job.type}</li>
               <li class="salary">${job.salary}</li>
             </ul>
-
-            <p class="description text-xl text-[#323B49]">
+            <div class="space-y-2">
+             <button  class="btn btn-soft btn-primary text-2xl uppercase" >
+              ${job.status} </button>
+                <p class="description text-xl text-[#323B49]">
               ${job.description}
-            </p>
+            </p> </div>
+           
 
             <div class="flex gap-3">
               <button
@@ -182,12 +216,25 @@ function renderInterview() {
     filterSection.appendChild(div);
   }
   console.log(...interviewList);
-  console.log("renderInterview() called successfully.");
 }
 function renderRejected() {
   //? each rejectedList object to create a div card and then append this card filterSection
-  if (rejectedList.length !== 0) {
-    filterSection.innerHTML = "";
+  filterSection.innerHTML = "";
+  if (rejectedList.length === 0) {
+    const div = document.createElement("div");
+    div.innerHTML = `<div
+          id="empty-card"
+          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
+        >
+          <div><img src="./jobs.png" alt="" /></div>
+          <h2 class="text-[#002C5C] text-2xl font-semibold">
+            No jobs available
+          </h2>
+          <p class="text-[#64748B]">
+            Check back soon for new job opportunities
+          </p>
+        </div>`;
+    filterSection.appendChild(div);
   }
   for (let job of rejectedList) {
     const div = document.createElement("div");
@@ -218,9 +265,12 @@ function renderRejected() {
               <li class="salary">${job.salary}</li>
             </ul>
 
-            <p class="description text-xl text-[#323B49]">
+            <div class="space-y-2">
+             <button  class="btn btn-soft btn-primary text-2xl uppercase" >
+              ${job.status} </button>
+                <p class="description text-xl text-[#323B49]">
               ${job.description}
-            </p>
+            </p> </div>
 
             <div class="flex gap-3">
               <button
