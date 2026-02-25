@@ -75,7 +75,10 @@ mainContainer.addEventListener("click", function (event) {
     const location = parentNode.querySelector(".location").innerText;
     const type = parentNode.querySelector(".type").innerText;
     const salary = parentNode.querySelector(".salary").innerText;
+    const status = parentNode.querySelector(".status-btn").innerText;
     const description = parentNode.querySelector(".description").innerText;
+
+    parentNode.querySelector(".status-btn").innerText = "Interview";
 
     const jobObject = {
       companyName,
@@ -97,6 +100,7 @@ mainContainer.addEventListener("click", function (event) {
     rejectedList = rejectedList.filter(
       (item) => item.companyName !== jobObject.companyName,
     );
+
     console.log("currentStatus in interview btn:", currentStatus);
     if (currentStatus === "rejected-filter-btn") {
       renderRejected();
@@ -112,8 +116,10 @@ mainContainer.addEventListener("click", function (event) {
     const location = parentNode.querySelector(".location").innerText;
     const type = parentNode.querySelector(".type").innerText;
     const salary = parentNode.querySelector(".salary").innerText;
+    const status = parentNode.querySelector(".status-btn").innerText;
     const description = parentNode.querySelector(".description").innerText;
 
+    parentNode.querySelector(".status-btn").innerText = "Rejected";
     const jobObject = {
       companyName,
       position,
@@ -134,6 +140,7 @@ mainContainer.addEventListener("click", function (event) {
     interviewList = interviewList.filter(
       (item) => item.companyName !== jobObject.companyName,
     );
+
     console.log("currentStatus in rejected btn:", currentStatus);
     if (currentStatus === "interview-filter-btn") {
       renderInterview();
@@ -192,7 +199,7 @@ function renderInterview() {
               <li class="salary">${job.salary}</li>
             </ul>
             <div class="space-y-2">
-             <button  class="btn btn-soft btn-primary text-2xl uppercase" >
+             <button  class="status-btn btn btn-soft btn-primary text-2xl uppercase" >
               ${job.status} </button>
                 <p class="description text-xl text-[#323B49]">
               ${job.description}
@@ -266,7 +273,7 @@ function renderRejected() {
             </ul>
 
             <div class="space-y-2">
-             <button  class="btn btn-soft btn-primary text-2xl uppercase" >
+             <button  class="status-btn btn btn-soft btn-primary text-2xl uppercase" >
               ${job.status} </button>
                 <p class="description text-xl text-[#323B49]">
               ${job.description}
