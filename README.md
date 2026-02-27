@@ -43,11 +43,11 @@
    
     When you click the Link tag ```<a></a>```:
    
-    1. The link's event fires first <a>.
-    2. Then the event moves to the element <p> (parent element).
-    3. after the event moves to the element <section>
-    4. After, it goes to the <body>.
-    5.  After that, it goes to the <html>.
+    1. The link's event fires first `<a>`.
+    2. Then the event moves to the element `<p>` (parent element).
+    3. after the event moves to the element `<section>`
+    4. After, it goes to the `<body>`.
+    5.  After that, it goes to the `<html>`.
     6. Finally, it reaches the document.
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/06a0d716-5a4c-4774-9aab-a838106c614b" />
