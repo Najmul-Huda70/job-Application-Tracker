@@ -1,6 +1,7 @@
 console.log("jobTracker.js is connected.");
 
 //todo list create
+let allList = [];
 let interviewList = [];
 let rejectedList = [];
 let currentStatus = "all-filter-btn";
@@ -21,6 +22,33 @@ const jobs = document.getElementById("jobs");
 
 //todo querySelector()
 const mainContainer = document.querySelector("main");
+
+//todo allList job push
+//console.log(allSection.children);
+for (let job of allSection.children) {
+  const parentNode = job;
+  // console.log(job);
+  const companyName = parentNode.querySelector(".companyName").innerText;
+  const position = parentNode.querySelector(".position").innerText;
+  const location = parentNode.querySelector(".location").innerText;
+  const type = parentNode.querySelector(".type").innerText;
+  const salary = parentNode.querySelector(".salary").innerText;
+  const status = parentNode.querySelector(".status-btn").innerText;
+  const description = parentNode.querySelector(".description").innerText;
+  // console.log(companyName);
+
+  const jobObject = {
+    companyName,
+    position,
+    location,
+    type,
+    salary,
+    status: "Not Applied",
+    description,
+  };
+  allList.push(jobObject);
+  console.log(jobObject);
+}
 
 function calculateCount() {
   totalCount.innerText = allSection.children.length;
@@ -50,6 +78,7 @@ function toggleStyle(id) {
     allSection.classList.remove("hidden");
     filterSection.classList.add("hidden");
     jobs.innerText = "";
+    renderAll();
   } else if (id === "interview-filter-btn") {
     filterSection.classList.remove("hidden");
     allSection.classList.add("hidden");
@@ -93,6 +122,14 @@ mainContainer.addEventListener("click", function (event) {
       (item) => item.companyName === jobObject.companyName,
     );
     if (!duplicateFound) {
+      //all section list job status update
+      for (let job of allList) {
+        if (job.companyName === jobObject.companyName) {
+          job.status = "Interview";
+          break;
+        }
+      }
+      //* interviewList e push
       interviewList.push(jobObject);
       console.log("interviewList push:", jobObject);
     }
@@ -106,6 +143,10 @@ mainContainer.addEventListener("click", function (event) {
       renderRejected();
     }
     calculateCount();
+    if (currentStatus === "rejected-filter-btn") {
+      console.log(interviewList.length, rejectedList.length);
+      jobs.innerText = rejectedList.length + " of ";
+    }
   } else if (event.target.classList.contains("Rejected")) {
     console.log("Rejected button clicked!");
     const parentNode = event.target.parentNode.parentNode;
@@ -133,6 +174,13 @@ mainContainer.addEventListener("click", function (event) {
       (item) => item.companyName === jobObject.companyName,
     );
     if (!duplicateFound) {
+      //all section list job status update
+      for (let job of allList) {
+        if (job.companyName === jobObject.companyName) {
+          job.status = "Rejected";
+          break;
+        }
+      }
       rejectedList.push(jobObject);
       console.log("rejectedList push:", jobObject);
     }
@@ -146,10 +194,88 @@ mainContainer.addEventListener("click", function (event) {
       renderInterview();
     }
     calculateCount();
+    if (currentStatus === "interview-filter-btn") {
+      jobs.innerText = interviewList.length + " of ";
+      console.log(interviewList.length, rejectedList.length);
+    }
   }
 });
 
 //todo step-03
+function renderAll() {
+  console.log("renderAll() called successfully.");
+  //? each intreviewList object to create a div card and then append this card filterSection
+  allSection.innerHTML = "";
+  if (allList.length === 0) {
+    const div = document.createElement("div");
+    div.innerHTML = `<div
+          id="empty-card"
+          class="card card-dash bg-base-100 w-full h-100 flex justify-center items-center space-y-3"
+        >
+          <div><img src="./jobs.png" alt="" /></div>
+          <h2 class="text-[#002C5C] text-2xl font-semibold">
+            No jobs available
+          </h2>
+          <p class="text-[#64748B]">
+            Check back soon for new job opportunities
+          </p>
+        </div>`;
+    allSection.appendChild(div);
+  }
+  for (let job of allList) {
+    const div = document.createElement("div");
+    div.className = "card card-dash bg-base-100 w-full";
+    div.innerHTML = ` <div class="card-body space-y-5">
+            <!-- title and position -->
+            <div class="space-y-2 flex justify-between items-center">
+              <div>
+                <h2 class="companyName text-[#002C5C] text-2xl font-semibold">
+                  ${job.companyName}
+                </h2>
+                <p class="position text-[#64748B] text-xl">
+                  ${job.position}
+                </p>
+              </div>
+              <div
+                class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
+              >
+                <i class="text-[#64748B] fa-regular fa-trash-can"></i>
+              </div>
+            </div>
+            <!-- details -->
+            <ul
+              class="flex flex-col md:flex-row gap-3 list-disc list-inside text-[#64748B] text-xl"
+            >
+              <li class="location">${job.location}</li>
+              <li class="type">${job.type}</li>
+              <li class="salary">${job.salary}</li>
+            </ul>
+            <div class="space-y-2">
+             <button  class="status-btn btn btn-soft btn-primary text-2xl uppercase" >
+              ${job.status} </button>
+                <p class="description text-xl text-[#323B49]">
+              ${job.description}
+            </p> </div>
+           
+
+            <div class="flex gap-3">
+              <button
+                class="Interview btn btn-outline btn-success text-2xl uppercase"
+              >
+                interview
+              </button>
+              <button
+                class="Rejected btn btn-outline btn-error text-2xl uppercase"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>`;
+    // append
+    allSection.appendChild(div);
+  }
+  console.log(...allList);
+}
 function renderInterview() {
   console.log("renderInterview() called successfully.");
   //? each intreviewList object to create a div card and then append this card filterSection
