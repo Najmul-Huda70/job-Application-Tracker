@@ -47,11 +47,11 @@ for (let job of allSection.children) {
     description,
   };
   allList.push(jobObject);
-  console.log(jobObject);
+  // console.log(jobObject);
 }
 
 function calculateCount() {
-  totalCount.innerText = allSection.children.length;
+  totalCount.innerText = allList.length;
   interviewCount.innerText = interviewList.length;
   rejectedCount.innerText = rejectedList.length;
   console.log("calculateCount function called successfully.");
@@ -77,23 +77,24 @@ function toggleStyle(id) {
   if (id === "all-filter-btn") {
     allSection.classList.remove("hidden");
     filterSection.classList.add("hidden");
-    jobs.innerText = "";
+    jobs.innerText = allList.length;
     renderAll();
   } else if (id === "interview-filter-btn") {
     filterSection.classList.remove("hidden");
     allSection.classList.add("hidden");
-    jobs.innerText = interviewList.length + " of ";
+    jobs.innerText = interviewList.length + " of " + allList.length;
     renderInterview();
   } else if (id === "rejected-filter-btn") {
     filterSection.classList.remove("hidden");
     allSection.classList.add("hidden");
-    jobs.innerText = rejectedList.length + " of ";
+    jobs.innerText = rejectedList.length + " of " + allList.length;
     renderRejected();
   }
 }
 
 //todo step-02: delegation
 mainContainer.addEventListener("click", function (event) {
+  console.log(event.target);
   if (event.target.classList.contains("Interview")) {
     console.log("Interview button clicked!");
     const parentNode = event.target.parentNode.parentNode;
@@ -145,7 +146,7 @@ mainContainer.addEventListener("click", function (event) {
     calculateCount();
     if (currentStatus === "rejected-filter-btn") {
       console.log(interviewList.length, rejectedList.length);
-      jobs.innerText = rejectedList.length + " of ";
+      jobs.innerText = rejectedList.length + " of " + allList.length;
     }
   } else if (event.target.classList.contains("Rejected")) {
     console.log("Rejected button clicked!");
@@ -195,8 +196,45 @@ mainContainer.addEventListener("click", function (event) {
     }
     calculateCount();
     if (currentStatus === "interview-filter-btn") {
-      jobs.innerText = interviewList.length + " of ";
+      jobs.innerText = interviewList.length + " of " + allList.length;
       console.log(interviewList.length, rejectedList.length);
+    }
+  } else if (event.target.classList.contains("delete-btn")) {
+    console.log(event.target);
+    console.log("delete btn clicked");
+    const parentNode = event.target.parentNode.parentNode;
+    console.log("parentNode:", parentNode);
+    //* querySelector()
+    const companyName = parentNode.querySelector(".companyName").innerText;
+    allList = allList.filter((item) => item.companyName !== companyName);
+
+    interviewList = interviewList.filter(
+      (item) => item.companyName !== companyName,
+    );
+
+    rejectedList = rejectedList.filter(
+      (item) => item.companyName !== companyName,
+    );
+    calculateCount();
+    console.log(allList.length, interviewList.length, rejectedList.length);
+    if (currentStatus === "interview-filter-btn") {
+      renderInterview();
+      jobs.innerText = interviewList.length + " of " + allList.length;
+      console.log(interviewList.length, rejectedList.length);
+    } else if (currentStatus === "rejected-filter-btn") {
+      renderRejected();
+      console.log(interviewList.length, rejectedList.length);
+      jobs.innerText = rejectedList.length + " of " + allList.length;
+    } else {
+      jobs.innerText = allList.length;
+      console.log(
+        "delagation",
+        allList.length,
+        interviewList.length,
+        rejectedList.length,
+      );
+      console.log(jobs);
+      renderAll();
     }
   }
 });
@@ -236,11 +274,7 @@ function renderAll() {
                   ${job.position}
                 </p>
               </div>
-              <div
-                class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
-              >
-                <i class="text-[#64748B] fa-regular fa-trash-can"></i>
-              </div>
+              
             </div>
             <!-- details -->
             <ul
@@ -268,6 +302,11 @@ function renderAll() {
                 class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
+              </button>
+              <button
+                class="delete-btn btn btn-outline btn-error text-2xl uppercase absolute top-5 right-5"
+              >
+                delete
               </button>
             </div>
           </div>`;
@@ -310,11 +349,7 @@ function renderInterview() {
                   ${job.position}
                 </p>
               </div>
-              <div
-                class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
-              >
-                <i class="text-[#64748B] fa-regular fa-trash-can"></i>
-              </div>
+              
             </div>
             <!-- details -->
             <ul
@@ -342,6 +377,11 @@ function renderInterview() {
                 class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
+              </button>
+              <button
+                class="delete-btn btn btn-outline btn-error text-2xl uppercase absolute top-5 right-5"
+              >
+                delete
               </button>
             </div>
           </div>`;
@@ -383,11 +423,7 @@ function renderRejected() {
                   ${job.position}
                 </p>
               </div>
-              <div
-                class="w-8 h-8 border rounded-full border-[#64748B]/20 flex justify-center items-center"
-              >
-                <i class="text-[#64748B] fa-regular fa-trash-can"></i>
-              </div>
+              
             </div>
             <!-- details -->
             <ul
@@ -415,6 +451,11 @@ function renderRejected() {
                 class="Rejected btn btn-outline btn-error text-2xl uppercase"
               >
                 Rejected
+              </button>
+              <button
+                class="delete-btn btn btn-outline btn-error text-2xl uppercase absolute top-5 right-5"
+              >
+                delete
               </button>
             </div>
           </div>`;
